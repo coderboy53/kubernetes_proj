@@ -19,7 +19,7 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: COLOR
-              name: color-cm
+              name: blue-cm
         resources:
           requests:
             memory: "128Mi"
