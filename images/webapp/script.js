@@ -1,3 +1,0 @@
-function getIp(params) {
-    
-}
