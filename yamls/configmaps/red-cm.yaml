@@ -1,6 +1,6 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: blue-cm
+  name: red-cm
 data:
-  COLOR: blue
+  COLOR: red

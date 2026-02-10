@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: blue-cm
 data:
-  COLOR: red
+  COLOR: blue
