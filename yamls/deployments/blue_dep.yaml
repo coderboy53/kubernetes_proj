@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: blue-webapp
-        image: webapp
+        image: sohammitra53/webapp:1.0.0
         env:
         - name: COLOR
           valueFrom:
