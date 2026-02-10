@@ -28,6 +28,8 @@ def getIP():
     color = os.getenv('COLOR')
     if color == 'RED':
         return urlrequest.Request("http://blue-webapp.svc.cluster.local/ip")
+    else:
+        return urlrequest.Request("http://red-webapp.svc.cluster.local/ip")
 
 # path that will let us store temporary data
 @app.post("/save")
