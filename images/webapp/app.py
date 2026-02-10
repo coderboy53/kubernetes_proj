@@ -14,7 +14,7 @@ template = Jinja2Templates(directory="templates")
 
 @app.get("/")
 def index(request: Request):
-    return template.TemplateResponse(request=request, name="pod1.html")
+    return template.TemplateResponse(request=request, name="index.html")
 
 # path that will get the IP of the current pod and expose it
 @app.get("/ip")
