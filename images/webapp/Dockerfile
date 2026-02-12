@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN pip3 install "fastapi[standard]" && useradd app
+RUN pip3 install "fastapi[standard]", requests && useradd app
 
 EXPOSE 8000
 
