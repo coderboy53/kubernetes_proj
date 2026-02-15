@@ -16,10 +16,14 @@ template = Jinja2Templates(directory="templates")
 async def index(request: Request):
     return template.TemplateResponse(request=request, name="index.html")
 
+@app.get("/form")
+async def form(request: Request):
+    return template.TemplateResponse(request=request, name="form.html")
+
 # path that will get the IP of the current pod and expose it
 @app.get("/ip")
 async def selfIp():
-    ip = subprocess.run('ip addr show dev en0 | grep -Ei "inet " | awk \'{print $2}\' | cut -d "/" -f1',shell=True, capture_output=True)
+    ip = subprocess.run('ip addr show dev wlp0s20f3 | grep -Ei "inet " | awk \'{print $2}\' | cut -d "/" -f1',shell=True, capture_output=True)
     return {"message": ip.stdout}
 
 # path that will get us the IP of the other pod
@@ -28,13 +32,13 @@ async def getIP():
     color = os.getenv('COLOR')
     print(color)
     if color == 'RED':
-        print(requests.get("http://127.0.0.1:8000/ip").json())
+        return requests.get("http://127.0.0.1:8001/ip").json()
     else:
-        print(requests.get("http://127.0.0.1:8001/ip").json())
+        return requests.get("http://127.0.0.1:8001/ip").json()
 
 # path that will let us store temporary data
 @app.post("/save")
-async def saveTemp():
+async def saveData():
     return 0
 
 # path that will let us store data in volume
