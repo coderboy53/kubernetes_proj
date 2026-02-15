@@ -1,4 +1,36 @@
 async function getIp() {
   // sends get request to IP, awaits response, then parses response into JSON, awaits parsing then prints the fetched Pod IP to alert bar 
-   fetch("http://127.0.0.1:8000/getip").then((response) => response.json()).then((data) => window.alert("Other pod IP is: "+data.message))
+  fetch("http://127.0.0.1:8000/getip").then((response) => response.json()).then((data) => window.alert("Other pod IP is: "+data.message))
+}
+
+// function to display form and get the data submitted in the form
+async function getFormData(){
+  let formData = {};
+  const popup = window.open("/form","_blank", "popup,width=640,height=800");
+  popup.onload = () => {
+    const form = popup.document.getElementById('form');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      formData.name = form.elements['name'].value;
+      formData.time = form.elements['time'].value;
+      formData.text = form.elements['text'].value;
+      popup.close()
+    })
+  }
+  return formData;
+}
+
+// function storing data to ephemeral mount
+async function saveData(){
+  const formData = getFormData();
+}
+
+// function storing data to persistent volume mount
+async function saveVolume(){
+  const formData = getFormData();
+}
+
+// function to store data to DB
+async function saveDB(){
+   
 }
