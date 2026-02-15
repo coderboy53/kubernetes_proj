@@ -8,13 +8,21 @@ import requests
 
 app = FastAPI()
 
+# mount the static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+# create a template object
 template = Jinja2Templates(directory="templates")
 
+# serve the homepage at root
 @app.get("/")
 def index(request: Request):
     return template.TemplateResponse(request=request, name="index.html")
+
+# serving the form page
+@app.get("/form")
+async def form(request: Request):
+    return template.TemplateResponse(request=request, name="form.html")
 
 # path that will get the IP of the current pod and expose it
 @app.get("/ip")
