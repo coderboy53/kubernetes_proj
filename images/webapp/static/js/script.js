@@ -5,6 +5,7 @@ async function getIp() {
 
 // function to display form and get the data submitted in the form
 async function getFormData(){
+  return new Promise((resolve) => {
   let formData = {};
   const popup = window.open("/form","_blank", "popup,width=640,height=800");
   popup.onload = () => {
@@ -15,19 +16,21 @@ async function getFormData(){
       formData.time = form.elements['time'].value;
       formData.text = form.elements['text'].value;
       popup.close()
-    })
-  }
-  return formData;
+      resolve(formData);
+    });
+  };
+});
 }
 
 // function storing data to ephemeral mount
 async function saveData(){
-  const formData = getFormData();
+  const formData = await getFormData();
+  console.log(formData);
 }
 
 // function storing data to persistent volume mount
 async function saveVolume(){
-  const formData = getFormData();
+  const formData = await getFormData();
 }
 
 // function to store data to DB
