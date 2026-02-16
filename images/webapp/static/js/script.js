@@ -25,7 +25,13 @@ async function getFormData(){
 // function storing data to ephemeral mount
 async function saveData(){
   const formData = await getFormData();
-  console.log(formData);
+  fetch("http://127.0.0.1:8000/save", {
+    method : "POST",
+    body : JSON.stringify(formData),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
 }
 
 // function storing data to persistent volume mount
