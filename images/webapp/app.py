@@ -5,6 +5,7 @@ from fastapi.templating import Jinja2Templates
 import subprocess
 import os
 import requests
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -13,6 +14,11 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # create a template object
 template = Jinja2Templates(directory="templates")
+
+class FormData(BaseModel):
+    name: str
+    time: str
+    text: str
 
 # serve the homepage at root
 @app.get("/")
@@ -41,13 +47,17 @@ async def getIP():
 
 # path that will let us store temporary data
 @app.post("/save")
-async def saveTemp():
-    return 0
+async def saveTemp(formData: FormData):
+    formString = ",".join([formData.name,formData.time,formData.text])
+    with open('./temp/file.txt','w') as f:
+        f.write(formString)
 
 # path that will let us store data in volume
 @app.post("/savev")
-async def saveVol():
-    return 0
+async def saveVol(formData: FormData):
+    formString = ','.join([formData.name,formData.time,formData.text])
+    with open('./files/files.txt', 'w') as f:
+        f.write(formString)
 
 # path that will let us store data in DB
 @app.post("/saved")
