@@ -25,11 +25,11 @@ async function getFormData(){
 // function storing data to ephemeral mount
 async function saveData(){
   const formData = await getFormData();
-  fetch("http://127.0.0.1:8000/save", {
-    method : "POST",
-    body : JSON.stringify(formData),
+  fetch('http://127.0.0.1:8000/save', {
+    method: 'POST',
+    body: JSON.stringify(formData),
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   });
 }
@@ -37,6 +37,13 @@ async function saveData(){
 // function storing data to persistent volume mount
 async function saveVolume(){
   const formData = await getFormData();
+  fetch('http://127.0.0.1:8000/savev', {
+    method: 'POST',
+    body: JSON.stringify(formData),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
 }
 
 // function to store data to DB
