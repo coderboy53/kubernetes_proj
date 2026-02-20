@@ -4,9 +4,9 @@ metadata:
   name: mysql
 spec:
   ports:
-  - port: 1433
+  - port: 3306
     protocol: TCP
-    targetPort: 1433
+    targetPort: 3306
   selector:
     app: mysql
 status:
