@@ -13,13 +13,25 @@ spec:
     spec:
       containers:
       - name: blue-webapp
-        image: sohammitra53/webapp:1.0.0
+        image: sohammitra53/blue_webapp:1.0.0
         env:
         - name: COLOR
+          value: BLUE
+        - name: MYSQL_USER
           valueFrom:
             configMapKeyRef:
-              key: COLOR
-              name: blue-cm
+              name: mysql-cm
+              key: MYSQL_USER
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-cm
+              key: MYSQL_DATABASE
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_PASSWORD
         resources:
           requests:
             memory: "128Mi"
@@ -27,3 +39,16 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "500m"
+        volumeMounts:
+        - name: webapp-pv
+          mountPath: /files
+        - name: webapp-temp
+          mountPath: /temp
+      volumes:
+      - name: webapp-pv
+        persistentVolumeClaim:
+          claimName: webapp-claim
+      - name: webapp-temp
+        emptyDir:
+          sizeLimit: 1Gi
+
