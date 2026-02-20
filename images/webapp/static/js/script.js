@@ -48,5 +48,17 @@ async function saveVolume(){
 
 // function to store data to DB
 async function saveDB(){
-   
+  const formData = await getFormData();
+  fetch('http://127.0.0.1:8000/saved', {
+    method: 'POST',
+    body: JSON.stringify(formData),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
 }
+
+window.addEventListener("load", async () => {
+  let ip = document.getElementById('ip');
+  fetch('http://127.0.0.1:8000/ip').then((response) => response.json()).then((data) => {ip.innerHTML = 'My IP: '+data.message})
+})
