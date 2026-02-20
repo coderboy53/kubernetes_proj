@@ -7,6 +7,6 @@ spec:
     requests:
       storage: "500Mi"
   volumeMode: Filesystem
-  storageClassName: webapp-sc
+  storageClassName: manual
   accessModes:
     - ReadWriteOnce
