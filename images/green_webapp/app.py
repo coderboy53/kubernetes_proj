@@ -17,7 +17,7 @@ class Data(SQLModel, table=True):
     text: str | None
 
 # creating sql connection string and initiating engine
-sql_url = "mysql://"+os.getenv('MYSQL_USER')+":"+os.getenv('MYSQL_PASSWORD')+"@mysql.database.svc.cluster.local/"+os.getenv('MYSQL_DATABASE')
+sql_url = "mysql+pymysql://"+os.getenv('MYSQL_USER')+":"+os.getenv('MYSQL_PASSWORD')+"@mysql.database.svc.cluster.local/"+os.getenv('MYSQL_DATABASE')
 engine = create_engine(sql_url, echo=True)
 
 app = FastAPI()
