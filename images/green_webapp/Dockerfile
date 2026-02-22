@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN pip3 install -r requirements.txt && useradd app
+RUN apt update && apt install -y iproute2 && pip3 install -r requirements.txt && useradd app
 
 EXPOSE 8000
 
