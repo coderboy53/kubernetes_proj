@@ -72,9 +72,9 @@ async def selfIp():
 async def getIP():
     color = os.getenv('COLOR')
     if color == 'GREEN':
-        return requests.get("http://blue-webapp:8000/ip")
+        return requests.get("http://blue-webapp:8000/ip").json()
     else:
-        return requests.get("http://green-webapp:8000/ip")
+        return requests.get("http://green-webapp:8000/ip").json()
 
 # path that will let us store temporary data
 @app.post("/save")
@@ -97,3 +97,4 @@ async def saveDb(record: Data, session: SessionDep):
     session.commit()
     session.refresh(record)
     return record
+
