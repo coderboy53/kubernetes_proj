@@ -1,19 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: blue-webapp
+  name: green-webapp
 spec:
   selector:
     matchLabels:
-      app: blue-webapp
+      app: green-webapp
+  replicas: 3
   template:
     metadata:
       labels:
-        app: blue-webapp
+        app: green-webapp
     spec:
       containers:
-      - name: blue-webapp
-        image: sohammitra53/webapp:1.0.0
+      - name: green-webapp
+        image: sohammitra53/webapp:green_1.2.3
         env:
         - name: COLOR
           value: GREEN
@@ -39,7 +40,7 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "500m"
-      volumeMounts:
+        volumeMounts:
         - name: webapp-pv
           mountPath: /files
         - name: webapp-temp
@@ -47,7 +48,7 @@ spec:
       volumes:
       - name: webapp-pv
         persistentVolumeClaim:
-          claimName: webapp-claim
+          claimName: greenapp-pvc
       - name: webapp-temp
         emptyDir:
-          sizeLimit: 1Gi
+          sizeLimit: 500Mi

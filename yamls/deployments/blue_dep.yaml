@@ -6,6 +6,7 @@ spec:
   selector:
     matchLabels:
       app: blue-webapp
+  replicas: 3
   template:
     metadata:
       labels:
@@ -13,7 +14,7 @@ spec:
     spec:
       containers:
       - name: blue-webapp
-        image: sohammitra53/blue_webapp:1.0.0
+        image: sohammitra53/webapp:blue_1.2.3
         env:
         - name: COLOR
           value: BLUE
@@ -47,8 +48,8 @@ spec:
       volumes:
       - name: webapp-pv
         persistentVolumeClaim:
-          claimName: webapp-claim
+          claimName: blueapp-pvc
       - name: webapp-temp
         emptyDir:
-          sizeLimit: 1Gi
+          sizeLimit: 500Mi
 
