@@ -72,9 +72,9 @@ async def selfIp():
 async def getIP():
     color = os.getenv('COLOR')
     if color == 'GREEN':
-        return requests.get("http://blue-webapp.svc.cluster.local/ip")
+        return requests.get("http://blue-webapp/ip")
     else:
-        return requests.get("http://red-webapp.svc.cluster.local/ip")
+        return requests.get("http://green-webapp/ip")
 
 # path that will let us store temporary data
 @app.post("/save")
