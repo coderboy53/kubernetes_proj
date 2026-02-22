@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mysql-cm
+  namespace: database
 data:
   MYSQL_USER: sqluser
   MYSQL_DATABASE: userdata
