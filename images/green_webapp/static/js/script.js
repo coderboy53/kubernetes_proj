@@ -1,6 +1,6 @@
 async function getIp() {
   // sends get request to IP, awaits response, then parses response into JSON, awaits parsing then prints the fetched Pod IP to alert bar 
-  fetch("http://127.0.0.1:8000/getip").then((response) => response.json()).then((data) => window.alert("Other pod IP is: "+data.message))
+  fetch("/getip").then((response) => response.json()).then((data) => window.alert("Other pod IP is: "+data.message))
 }
 
 // function to display form and get the data submitted in the form
@@ -25,7 +25,7 @@ async function getFormData(){
 // function storing data to ephemeral mount
 async function saveData(){
   const formData = await getFormData();
-  fetch('http://127.0.0.1:8000/save', {
+  fetch('/save', {
     method: 'POST',
     body: JSON.stringify(formData),
     headers: {
@@ -37,7 +37,7 @@ async function saveData(){
 // function storing data to persistent volume mount
 async function saveVolume(){
   const formData = await getFormData();
-  fetch('http://127.0.0.1:8000/savev', {
+  fetch('/savev', {
     method: 'POST',
     body: JSON.stringify(formData),
     headers: {
@@ -49,7 +49,7 @@ async function saveVolume(){
 // function to store data to DB
 async function saveDB(){
   const formData = await getFormData();
-  fetch('http://127.0.0.1:8000/saved', {
+  fetch('/saved', {
     method: 'POST',
     body: JSON.stringify(formData),
     headers: {
@@ -60,5 +60,5 @@ async function saveDB(){
 
 window.addEventListener("load", async () => {
   let ip = document.getElementById('ip');
-  fetch('http://127.0.0.1:8000/ip').then((response) => response.json()).then((data) => {ip.innerHTML = 'My IP: '+data.message})
+  fetch('/ip').then((response) => response.json()).then((data) => {ip.innerHTML = 'My IP: '+data.message})
 })
