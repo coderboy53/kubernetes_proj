@@ -80,15 +80,41 @@ async def getIP():
 @app.post("/save")
 async def saveTemp(formData: FormData):
     formString = ",".join([formData.name,formData.time,formData.text])
-    with open('./temp/file.txt','w') as f:
+    with open('$HOME/temp/'+formData.time+'.txt','w') as f:
         f.write(formString)
+        f.close()
+    return {'message': 'Saved file as '+formData.time+'.txt'}
+
+# retrieve file saved in ephemeral volume
+@app.get('/getsave')
+async def getTemp(fileName: str):
+    if '.txt' not in fileName:
+        fileName = fileName+'.txt'
+    path = '$HOME/temp/'+fileName
+    with open(path,'r') as f:
+        line = f.readline()
+        data = line.split(',')
+        return {"name": data[0], "time": data[1], "text": data[2]}
 
 # path that will let us store data in volume
 @app.post("/savev")
 async def saveVol(formData: FormData):
     formString = ','.join([formData.name,formData.time,formData.text])
-    with open('./files/files.txt', 'w') as f:
+    with open('$HOME/files/'+formData.time+'.txt', 'w') as f:
         f.write(formString)
+        f.close()
+    return {'message':'Saved file as '+formData.time+'.txt'}
+
+# retrieve the file saved in persistent volume
+@app.get("/getsavev")
+async def getVol(fileName: str):
+    if '.txt' not in fileName:
+        fileName = fileName+'.txt'
+    path = '$HOME/files/'+fileName
+    with open(path,'r') as f:
+        line = f.readline()
+        data = line.split(',')
+        return {"name": data[0], "time": data[1], "text": data[2]}
 
 # path that will let us store data in DB
 @app.post("/saved")
