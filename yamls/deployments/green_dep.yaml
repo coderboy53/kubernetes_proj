@@ -42,9 +42,9 @@ spec:
             cpu: "500m"
         volumeMounts:
         - name: webapp-pv
-          mountPath: /files
+          mountPath: /home/app/files
         - name: webapp-temp
-          mountPath: /temp
+          mountPath: /home/app/temp
       volumes:
       - name: webapp-pv
         persistentVolumeClaim:
