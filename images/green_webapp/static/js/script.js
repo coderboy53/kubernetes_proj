@@ -36,7 +36,7 @@ async function saveData(){
 
 async function getData(){
   fileName = window.prompt('Enter the filename');
-  const response = await fetch('/getsave/?fileName='+fileName);
+  const response = await fetch('/getsave?fileName='+fileName);
   const result = await response.json()
   if (response.status == 404)
   {
@@ -58,20 +58,20 @@ async function saveVolume(){
     headers: {
       'Content-Type': 'application/json'
     }
-  }).then((response) => response.json()).then((data) => window.alert(data.message));
+  }).then((response) => response.json()).then((body) => window.alert(body.message));
 }
 
 async function getVolume(){
-  fileName = window.prompt('Enter the filename');
-  const response = await fetch('/getsavev/?fileName='+fileName);
-  const result = await response.json()
+  let fileName = window.prompt('Enter the filename');
+  const response = await fetch('/getsavev?fileName='+fileName);
+  const body = await response.json()
   if (response.status == 404)
   {
-    window.alert(result.detail)
+    window.alert(body.detail)
   }
   else if (response.status == 200)
   {
-    window.alert('Name: '+result.name+'\nTime: '+result.time+'\nText: '+result.text);
+    window.alert('Name: '+body.name+'\nTime: '+body.time+'\nText: '+body.text);
   }
   
 }
@@ -85,7 +85,22 @@ async function saveDB(){
     headers: {
       'Content-Type': 'application/json'
     }
-  });
+  }).then((response) => response.json()).then((body) => window.alert('Name: '+body.name+'\nTime: '+body.time+'\nText: '+body.text));
+}
+
+async function getDB(){
+  let name = window.prompt("Enter timestamp added during DB entry");
+  const response = await fetch('/getd?name'+name);
+  const body = await response.json();
+  if (response.status == 404)
+  {
+    window.alert(body.detail);
+  }
+  else if (response.status == 200)
+  {
+    window.alert('Name: '+body.name+'\nTime: '+body.time+'\nText: '+body.text);
+  }
+
 }
 
 window.addEventListener("load", async () => {

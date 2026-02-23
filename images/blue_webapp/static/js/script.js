@@ -85,8 +85,24 @@ async function saveDB(){
     headers: {
       'Content-Type': 'application/json'
     }
-  });
+  }).then((response) => response.json()).then((data) => window.alert('Name: '+data.name+'\nTime: '+data.time+'\nText: '+data.text));
 }
+
+async function getDB(){
+  let name = window.prompt("Enter timestamp added during DB entry");
+  const response = await fetch('/getd?name'+name);
+  const body = await response.json();
+  if (response.status == 404)
+  {
+    window.alert(body.detail);
+  }
+  else if (response.status == 200)
+  {
+    window.alert('Name: '+body.name+'\nTime: '+body.time+'\nText: '+body.text);
+  }
+
+}
+
 
 window.addEventListener("load", async () => {
   let ip = document.getElementById('ip');
