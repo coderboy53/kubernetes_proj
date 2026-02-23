@@ -31,7 +31,22 @@ async function saveData(){
     headers: {
       'Content-Type': 'application/json'
     }
-  });
+  }).then((response) => response.json()).then((data) => window.alert(data.message));
+}
+
+async function getData(){
+  fileName = window.prompt('Enter the filename');
+  const response = await fetch('/getsave/?fileName='+fileName);
+  const result = await response.json()
+  if (response.status == 404)
+  {
+    window.alert(result.detail)
+  }
+  else if (response.status == 200)
+  {
+    window.alert('Name: '+result.name+'\nTime: '+result.time+'\nText: '+result.text);
+  }
+  
 }
 
 // function storing data to persistent volume mount
@@ -43,7 +58,22 @@ async function saveVolume(){
     headers: {
       'Content-Type': 'application/json'
     }
-  });
+  }).then((response) => response.json()).then((data) => window.alert(data.message));
+}
+
+async function getVolume(){
+  fileName = window.prompt('Enter the filename');
+  const response = await fetch('/getsavev/?fileName='+fileName);
+  const result = await response.json()
+  if (response.status == 404)
+  {
+    window.alert(result.detail)
+  }
+  else if (response.status == 200)
+  {
+    window.alert('Name: '+result.name+'\nTime: '+result.time+'\nText: '+result.text);
+  }
+  
 }
 
 // function to store data to DB
