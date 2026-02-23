@@ -1,5 +1,4 @@
-from fastapi import FastAPI, Request, Depends
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Request, Depends, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import subprocess
@@ -8,6 +7,7 @@ import requests
 from pydantic import BaseModel
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from typing import Annotated
+from pathlib import Path
 
 # model corresponding to table
 class Data(SQLModel, table=True):
@@ -38,15 +38,15 @@ class FormData(BaseModel):
 def create_tables():
     SQLModel.metadata.create_all(engine)
 
-# yields a session 
+# # yields a session 
 def get_session():
     with Session(engine) as session:
         yield session
 
-# annotates a new session dependency
+# # annotates a new session dependency
 SessionDep = Annotated[Session, Depends(get_session)]
 
-# creates the tables when the app starts up
+# # creates the tables when the app starts up
 @app.on_event("startup")
 def on_startup():
     SQLModel.metadata.create_all(engine)
@@ -80,28 +80,34 @@ async def getIP():
 @app.post("/save")
 async def saveTemp(formData: FormData):
     formString = ",".join([formData.name,formData.time,formData.text])
-    with open('$HOME/temp/'+formData.time+'.txt','w') as f:
+    home = os.getenv('HOME')
+    with open(home+'/temp/'+formData.time+'.txt','w') as f:
         f.write(formString)
         f.close()
     return {'message': 'Saved file as '+formData.time+'.txt'}
-
 
 # retrieve file saved in ephemeral volume
 @app.get('/getsave')
 async def getTemp(fileName: str):
     if '.txt' not in fileName:
         fileName = fileName+'.txt'
-    path = '$HOME/temp/'+fileName
-    with open(path,'r') as f:
-        line = f.readline()
-        data = line.split(',')
-        return {"name": data[0], "time": data[1], "text": data[2]}
+    home = os.getenv('HOME')
+    filePath = home+'/temp/'+fileName
+    if Path(filePath).exists():
+        with open(filePath,'r') as f:
+            line = f.readline()
+            data = line.split(',')
+            return {"name": data[0], "time": data[1], "text": data[2]}
+    else:
+        raise HTTPException(status_code=404, detail="File not found")
+
 
 # path that will let us store data in volume
 @app.post("/savev")
 async def saveVol(formData: FormData):
     formString = ','.join([formData.name,formData.time,formData.text])
-    with open('$HOME/files/'+formData.time+'.txt', 'w') as f:
+    home = os.getenv('HOME')
+    with open(home+'/files/'+formData.time+'.txt', 'w') as f:
         f.write(formString)
         f.close()
     return {'message':'Saved file as '+formData.time+'.txt'}
@@ -111,11 +117,15 @@ async def saveVol(formData: FormData):
 async def getVol(fileName: str):
     if '.txt' not in fileName:
         fileName = fileName+'.txt'
-    path = '$HOME/files/'+fileName
-    with open(path,'r') as f:
-        line = f.readline()
-        data = line.split(',')
-        return {"name": data[0], "time": data[1], "text": data[2]}
+    home = os.getenv('HOME')
+    filePath = home+'/files/'+fileName
+    if Path(filePath).exists():
+        with open(filePath,'r') as f:
+            line = f.readline()
+            data = line.split(',')
+            return {"name": data[0], "time": data[1], "text": data[2]}
+    else:
+        raise HTTPException(status_code=404, detail="File not found")
 
 # path that will let us store data in DB
 @app.post("/saved")
