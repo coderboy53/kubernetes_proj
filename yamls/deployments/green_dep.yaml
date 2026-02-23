@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: green-webapp
-        image: sohammitra53/webapp:green_1.2.3
+        image: sohammitra53/webapp:green_1.3.1
         env:
         - name: COLOR
           value: GREEN
