@@ -129,8 +129,15 @@ async def getVol(fileName: str):
 
 # path that will let us store data in DB
 @app.post("/saved")
-async def saveDb(record: Data, session: SessionDep):
+async def saveDb(record: Data, session: SessionDep) -> Data:
     session.add(record)
     session.commit()
     session.refresh(record)
     return record
+
+@app.get('/getd')
+async def getDb(session: SessionDep, name: str) -> list[Data]:
+    dataList = session.exec(select(Data).where(Data.name == name))
+    if not dataList:
+        raise HTTPException(status_code=404, detail="No records found")
+    return dataList
