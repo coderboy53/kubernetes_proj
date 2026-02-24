@@ -4,10 +4,12 @@ metadata:
   name: mysql
   namespace: database
 spec:
+  type: NodePort
   ports:
   - port: 3306
     protocol: TCP
     targetPort: 3306
+    nodePort: 32002
   selector:
     app: mysql
 status:
