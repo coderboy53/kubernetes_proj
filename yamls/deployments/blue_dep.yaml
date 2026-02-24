@@ -12,6 +12,10 @@ spec:
       labels:
         app: blue-webapp
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
       - name: blue-webapp
         image: sohammitra53/webapp:blue_1.3.1

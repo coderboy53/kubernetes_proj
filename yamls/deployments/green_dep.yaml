@@ -12,6 +12,10 @@ spec:
       labels:
         app: green-webapp
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
       - name: green-webapp
         image: sohammitra53/webapp:green_1.3.1
