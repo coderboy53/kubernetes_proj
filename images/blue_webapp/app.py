@@ -136,8 +136,8 @@ async def saveDb(record: Data, session: SessionDep) -> Data:
     return record
 
 @app.get('/getd')
-async def getDb(session: SessionDep, time: str) -> list[Data]:
-    data = session.exec(select(Data).where(Data.time == time))
-    if not data:
+async def getDb(session: SessionDep, time: str) -> Data:
+    data = session.exec(select(Data).where(Data.time == time)).all()
+    if not len(data):
         raise HTTPException(status_code=404, detail="No records found")
-    return data
+    return data[0]
