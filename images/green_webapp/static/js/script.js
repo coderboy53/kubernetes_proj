@@ -89,8 +89,8 @@ async function saveDB(){
 }
 
 async function getDB(){
-  let name = window.prompt("Enter timestamp added during DB entry");
-  const response = await fetch('/getd?name'+name);
+  let time = window.prompt("Enter timestamp added during DB entry");
+  const response = await fetch('/getd?time='+time);
   const body = await response.json();
   if (response.status == 404)
   {
