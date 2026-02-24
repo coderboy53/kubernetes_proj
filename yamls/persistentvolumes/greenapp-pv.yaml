@@ -11,7 +11,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: webapp-sc
   local:
-    path: /root/greenapp
+    path: /home/sohammitra/greenapp
   nodeAffinity:
     required: 
       nodeSelectorTerms:
